@@ -75,12 +75,13 @@ export const initialFX = () => {
 };
 
 export const setupScrollAnimations = () => {
-
+  // CRITICAL FOR MOBILE: Prevents jumping/glitching when the mobile URL bar hides/shows
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   const paras = document.querySelectorAll(".para");
   const titles = document.querySelectorAll(".title");
   const startPos = window.innerWidth <= 1024 ? "top 86%" : "20% 86%";
-  const toggleActions = "play pause resume reverse";
+  const toggleActions = "play none none reverse";
 
   paras.forEach((el) => {
     el.classList.add("visible");
