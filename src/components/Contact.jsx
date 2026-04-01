@@ -206,6 +206,7 @@ export const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="disable"
+                  aria-label="GitHub profile"
                 >
                   <GithubIcon />
                 </a>
@@ -214,6 +215,7 @@ export const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="disable"
+                  aria-label="LinkedIn profile"
                 >
                   <LinkedinIcon />
                 </a>
@@ -222,6 +224,7 @@ export const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="disable"
+                  aria-label="Instagram profile"
                 >
                   <InstagramIcon />
                 </a>
@@ -233,8 +236,9 @@ export const Contact = () => {
             <form className="contact-form" onSubmit={handleSubmit} noValidate>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Name</label>
+                  <label htmlFor="name">Name</label>
                   <input
+                    id="name"
                     type="text"
                     name="name"
                     value={formData.name}
@@ -242,14 +246,17 @@ export const Contact = () => {
                     placeholder="Your name"
                     className={errors.name ? "input-error shake" : ""}
                     data-cursor="disable"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
                   />
                   {errors.name && (
-                    <span className="error-text">{errors.name}</span>
+                    <span id="name-error" className="error-text">{errors.name}</span>
                   )}
                 </div>
                 <div className="form-group">
-                  <label>Email</label>
+                  <label htmlFor="email">Email</label>
                   <input
+                    id="email"
                     type="email"
                     name="email"
                     value={formData.email}
@@ -257,15 +264,18 @@ export const Contact = () => {
                     placeholder="your@email.com"
                     className={errors.email ? "input-error shake" : ""}
                     data-cursor="disable"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
                   />
                   {errors.email && (
-                    <span className="error-text">{errors.email}</span>
+                    <span id="email-error" className="error-text">{errors.email}</span>
                   )}
                 </div>
               </div>
               <div className="form-group">
-                <label>Subject</label>
+                <label htmlFor="subject">Subject</label>
                 <input
+                  id="subject"
                   type="text"
                   name="subject"
                   value={formData.subject}
@@ -273,14 +283,17 @@ export const Contact = () => {
                   placeholder="What's this about?"
                   className={errors.subject ? "input-error shake" : ""}
                   data-cursor="disable"
+                  aria-invalid={!!errors.subject}
+                  aria-describedby={errors.subject ? "subject-error" : undefined}
                 />
                 {errors.subject && (
-                  <span className="error-text">{errors.subject}</span>
+                  <span id="subject-error" className="error-text">{errors.subject}</span>
                 )}
               </div>
               <div className="form-group">
-                <label>Message</label>
+                <label htmlFor="message">Message</label>
                 <textarea
+                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -288,9 +301,11 @@ export const Contact = () => {
                   rows="4"
                   className={errors.message ? "input-error shake" : ""}
                   data-cursor="disable"
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "message-error" : undefined}
                 ></textarea>
                 {errors.message && (
-                  <span className="error-text">{errors.message}</span>
+                  <span id="message-error" className="error-text">{errors.message}</span>
                 )}
               </div>
               <button
@@ -321,8 +336,8 @@ export const Contact = () => {
 
       <footer className="global-footer">
         <p>
-          Designed and developed by <span className="footer-name">Lalit</span> ©
-          2025
+          Designed and developed by <span className="footer-name">Lalit</span> ©{" "}
+          {new Date().getFullYear()}
         </p>
       </footer>
     </div>

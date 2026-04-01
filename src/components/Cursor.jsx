@@ -21,13 +21,17 @@ export const Cursor = () => {
 
     document.addEventListener("mousemove", handleMouseMove);
 
+    const moveX = gsap.quickTo(cursor, "x", { duration: 0.1 });
+    const moveY = gsap.quickTo(cursor, "y", { duration: 0.1 });
+
     let rafId;
     const render = () => {
       if (!isActive) {
         const speed = 6;
         pos.x += (mouse.x - pos.x) / speed;
         pos.y += (mouse.y - pos.y) / speed;
-        gsap.to(cursor, { x: pos.x, y: pos.y, duration: 0.1 });
+        moveX(pos.x);
+        moveY(pos.y);
       }
       rafId = requestAnimationFrame(render);
     };

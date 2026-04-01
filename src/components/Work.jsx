@@ -10,6 +10,14 @@ const WorkBoxImage = ({ link, video, image, alt }) => {
   const [hover, setHover] = useState(false);
   const [vidSrc, setVidSrc] = useState("");
 
+  useEffect(() => {
+    return () => {
+      if (vidSrc) {
+        URL.revokeObjectURL(vidSrc);
+      }
+    };
+  }, [vidSrc]);
+
   return (
     <div className="work-image">
       <a
@@ -18,9 +26,16 @@ const WorkBoxImage = ({ link, video, image, alt }) => {
         onMouseEnter={async () => {
           if (video) {
             setHover(true);
-            const e = await fetch(`/${video}`);
-            const t = await e.blob();
-            setVidSrc(URL.createObjectURL(t));
+            if (vidSrc) {
+              URL.revokeObjectURL(vidSrc);
+            }
+            try {
+              const e = await fetch(`/${video}`);
+              const t = await e.blob();
+              setVidSrc(URL.createObjectURL(t));
+            } catch (err) {
+              console.error("Error loading video:", err);
+            }
           }
         }}
         onMouseLeave={() => setHover(false)}

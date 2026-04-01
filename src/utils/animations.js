@@ -75,28 +75,11 @@ export const initialFX = () => {
 };
 
 export const setupScrollAnimations = () => {
-  ScrollTrigger.config({ ignoreMobileResize: true });
-  if (window.innerWidth < 900) {
-    // Make sure elements are visible on small devices without animation
-    document.querySelectorAll(".para, .title").forEach((el) => {
-      // Kill any existing GSAP animation on this element
-      gsap.killTweensOf(el);
-      if (el.split) {
-        el.split.revert();
-        el.split = null;
-      }
-      if (el.anim) {
-        el.anim.progress(1).kill();
-        el.anim = null;
-      }
-      gsap.set(el, { autoAlpha: 1, y: 0, rotate: 0 });
-    });
-    return;
-  }
+
 
   const paras = document.querySelectorAll(".para");
   const titles = document.querySelectorAll(".title");
-  const startPos = window.innerWidth <= 1024 ? "top 60%" : "20% 60%";
+  const startPos = window.innerWidth <= 1024 ? "top 86%" : "20% 86%";
   const toggleActions = "play pause resume reverse";
 
   paras.forEach((el) => {
@@ -119,7 +102,7 @@ export const setupScrollAnimations = () => {
           toggleActions,
           start: startPos,
         },
-        duration: 1,
+        duration: 0.6,
         ease: "power3.out",
         y: 0,
         stagger: 0.02,
@@ -146,7 +129,7 @@ export const setupScrollAnimations = () => {
           toggleActions,
           start: startPos,
         },
-        duration: 0.8,
+        duration: 0.7,
         ease: "power2.inOut",
         y: 0,
         rotate: 0,
