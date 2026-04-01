@@ -80,8 +80,9 @@ export const setupScrollAnimations = () => {
 
   const paras = document.querySelectorAll(".para");
   const titles = document.querySelectorAll(".title");
-  const startPos = window.innerWidth <= 1024 ? "top 86%" : "20% 86%";
-  const toggleActions = "play none none reverse";
+
+  const startPos = window.innerWidth <= 1024 ? "top 80%" : "20% 80%";
+  const toggleActions = window.innerWidth <= 1024 ? "play none none none" : "play none none reverse";
 
   paras.forEach((el) => {
     el.classList.add("visible");
