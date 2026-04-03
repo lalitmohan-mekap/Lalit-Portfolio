@@ -79,7 +79,7 @@ export const setupScrollAnimations = () => {
   ScrollTrigger.config({ ignoreMobileResize: true });
 
   const isMobile = window.innerWidth <= 768;
-  const startPos = isMobile ? "top 85%" : "20% 80%";
+  const startPos = isMobile ? "top 80%" : "top 75%";
 
   const paras = document.querySelectorAll(".para");
   const titles = document.querySelectorAll(".title");
@@ -98,15 +98,14 @@ export const setupScrollAnimations = () => {
     });
 
     // Create a PAUSED tween — controlled manually via ScrollTrigger callbacks.
-    // tween.play() is a no-op if already playing/completed, so rapid
-    // mobile taps near the trigger threshold won't cause visible restarts.
+    // Use the element itself (el) as the trigger for more precise reveal.
     el.anim = gsap.fromTo(
       el.split.words,
       { autoAlpha: 0, y: 50 },
       {
         autoAlpha: 1,
         y: 0,
-        duration: 0.6,
+        duration: 0.7,
         ease: "power3.out",
         stagger: 0.02,
         paused: true,
@@ -114,7 +113,7 @@ export const setupScrollAnimations = () => {
     );
 
     el.st = ScrollTrigger.create({
-      trigger: el.parentElement?.parentElement,
+      trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
       onEnter: () => el.anim.play(),
@@ -149,7 +148,7 @@ export const setupScrollAnimations = () => {
     );
 
     el.st = ScrollTrigger.create({
-      trigger: el.parentElement?.parentElement,
+      trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
       onEnter: () => el.anim.play(),
