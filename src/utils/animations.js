@@ -114,8 +114,11 @@ export const setupScrollAnimations = () => {
       trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
+      // Mobile: play once and stay visible (no reverse on scroll-back)
+      // Desktop: reverse on scroll-back for interactive feel
+      once: isMobile,
       onEnter: () => el.anim.play(),
-      onLeaveBack: () => el.anim.reverse(),
+      onLeaveBack: isMobile ? undefined : () => el.anim.reverse(),
     });
   });
 
@@ -149,8 +152,11 @@ export const setupScrollAnimations = () => {
       trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
+      // Mobile: play once and stay visible (no reverse on scroll-back)
+      // Desktop: reverse on scroll-back for interactive feel
+      once: isMobile,
       onEnter: () => el.anim.play(),
-      onLeaveBack: () => el.anim.reverse(),
+      onLeaveBack: isMobile ? undefined : () => el.anim.reverse(),
     });
   });
 };
