@@ -22,6 +22,8 @@ export let lenisInstance = null;
 
 export const Navbar = () => {
   useEffect(() => {
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
     lenisInstance = new Lenis({
       duration: 1.7,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -29,8 +31,10 @@ export const Navbar = () => {
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1.7,
-      syncTouch: true,
-      touchMultiplier: 1.5,
+      // On touch devices, let the browser handle scrolling natively.
+      // Lenis's touch interception causes glitchy/laggy feel on mobile.
+      syncTouch: false,
+      touchMultiplier: isTouchDevice ? 1 : 1.5,
       infinite: false,
     });
 
