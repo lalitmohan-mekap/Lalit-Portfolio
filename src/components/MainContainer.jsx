@@ -27,9 +27,20 @@ export const MainContainer = () => {
   const initialized = useRef(false);
 
   useEffect(() => {
+    // Track width to distinguish real resizes from mobile address bar toggling
+    let lastWidth = window.innerWidth;
+
     const handleResize = () => {
-      setIsDesktop(window.innerWidth > 1024);
-      setupScrollAnimations();
+      const newWidth = window.innerWidth;
+      setIsDesktop(newWidth > 1024);
+
+      // Only re-run animations on actual width changes (e.g. orientation flip).
+      // Mobile address bar show/hide only changes HEIGHT — skip those.
+      // ScrollTrigger.refresh() (via invalidateOnRefresh) handles height changes.
+      if (newWidth !== lastWidth) {
+        lastWidth = newWidth;
+        setupScrollAnimations();
+      }
     };
 
     // Delay slightly to ensure fonts have loaded before measuring splits
