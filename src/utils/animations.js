@@ -110,15 +110,26 @@ export const setupScrollAnimations = () => {
       }
     );
 
+    // On mobile, debounce to prevent rapid touch-scroll from flickering the animation
+    let lastTrigger = 0;
+    const DEBOUNCE = isMobile ? 400 : 0;
+
     el.st = ScrollTrigger.create({
       trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
-      // Mobile: play once and stay visible (no reverse on scroll-back)
-      // Desktop: reverse on scroll-back for interactive feel
-      once: isMobile,
-      onEnter: () => el.anim.play(),
-      onLeaveBack: isMobile ? undefined : () => el.anim.reverse(),
+      onEnter: () => {
+        const now = Date.now();
+        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
+        lastTrigger = now;
+        el.anim.play();
+      },
+      onLeaveBack: () => {
+        const now = Date.now();
+        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
+        lastTrigger = now;
+        el.anim.reverse();
+      },
     });
   });
 
@@ -148,15 +159,26 @@ export const setupScrollAnimations = () => {
       }
     );
 
+    // On mobile, debounce to prevent rapid touch-scroll from flickering the animation
+    let lastTrigger = 0;
+    const DEBOUNCE = isMobile ? 400 : 0;
+
     el.st = ScrollTrigger.create({
       trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
-      // Mobile: play once and stay visible (no reverse on scroll-back)
-      // Desktop: reverse on scroll-back for interactive feel
-      once: isMobile,
-      onEnter: () => el.anim.play(),
-      onLeaveBack: isMobile ? undefined : () => el.anim.reverse(),
+      onEnter: () => {
+        const now = Date.now();
+        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
+        lastTrigger = now;
+        el.anim.play();
+      },
+      onLeaveBack: () => {
+        const now = Date.now();
+        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
+        lastTrigger = now;
+        el.anim.reverse();
+      },
     });
   });
 };
