@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { config } from "../data/config";
 import "./Navbar.css";
 import AnimatedLogo from "./AnimatedLogo";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const HoverLink = ({ text, cursor }) => {
   return (
@@ -29,12 +33,13 @@ export const Navbar = () => {
       infinite: false,
     });
 
-    let rafId;
     const raf = (time) => {
-      lenisInstance?.raf(time);
-      rafId = requestAnimationFrame(raf);
+      lenisInstance?.raf(time * 1000);
     };
-    rafId = requestAnimationFrame(raf);
+
+    lenisInstance.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add(raf);
+    gsap.ticker.lagSmoothing(0);
 
     const handleLinkClick = (e) => {
       e.preventDefault();
@@ -56,7 +61,7 @@ export const Navbar = () => {
     return () => {
       links.forEach((a) => a.removeEventListener("click", handleLinkClick));
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(raf);
       lenisInstance?.destroy();
       lenisInstance = null;
     };

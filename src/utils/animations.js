@@ -78,65 +78,74 @@ export const setupScrollAnimations = () => {
   // CRITICAL FOR MOBILE: Prevents jumping/glitching when the mobile URL bar hides/shows
   ScrollTrigger.config({ ignoreMobileResize: true });
 
+  const isMobile = window.innerWidth <= 768;
+  const startPos = isMobile ? "top 85%" : "20% 80%";
+  const toggleActions = "play none none reverse";
+
   const paras = document.querySelectorAll(".para");
   const titles = document.querySelectorAll(".title");
-
-  const startPos = window.innerWidth <= 1024 ? "top 80%" : "20% 80%";
-  const toggleActions = window.innerWidth <= 1024 ? "play none none none" : "play none none reverse";
 
   paras.forEach((el) => {
     el.classList.add("visible");
     if (el.anim) {
-      el.anim.progress(1).kill();
-      if (el.split) el.split.revert();
+      el.anim.scrollTrigger?.kill();
+      el.anim.kill();
+      el.split?.revert?.();
     }
+
     el.split = new SplitType(el, {
-      types: "lines,words",
+      types: isMobile ? "lines,words" : "lines,words",
       lineClass: "split-line",
     });
+
     el.anim = gsap.fromTo(
       el.split.words,
-      { autoAlpha: 0, y: 80 },
+      { autoAlpha: 0, y: 50 },
       {
         autoAlpha: 1,
-        scrollTrigger: {
-          trigger: el.parentElement?.parentElement,
-          toggleActions,
-          start: startPos,
-        },
+        y: 0,
         duration: 0.6,
         ease: "power3.out",
-        y: 0,
         stagger: 0.02,
-      },
+        scrollTrigger: {
+          trigger: el.parentElement?.parentElement,
+          start: startPos,
+          toggleActions,
+          invalidateOnRefresh: true,
+        },
+      }
     );
   });
 
   titles.forEach((el) => {
     if (el.anim) {
-      el.anim.progress(1).kill();
-      if (el.split) el.split.revert();
+      el.anim.scrollTrigger?.kill();
+      el.anim.kill();
+      el.split?.revert?.();
     }
+
     el.split = new SplitType(el, {
-      types: "chars,lines",
+      types: isMobile ? "lines,words" : "chars,lines",
       lineClass: "split-line",
     });
+
     el.anim = gsap.fromTo(
-      el.split.chars,
-      { autoAlpha: 0, y: 80, rotate: 10 },
+      isMobile ? el.split.words : el.split.chars,
+      { autoAlpha: 0, y: 50, rotate: isMobile ? 0 : 10 },
       {
         autoAlpha: 1,
-        scrollTrigger: {
-          trigger: el.parentElement?.parentElement,
-          toggleActions,
-          start: startPos,
-        },
-        duration: 0.7,
-        ease: "power2.inOut",
         y: 0,
         rotate: 0,
+        duration: 0.7,
+        ease: "power2.out",
         stagger: 0.03,
-      },
+        scrollTrigger: {
+          trigger: el.parentElement?.parentElement,
+          start: startPos,
+          toggleActions,
+          invalidateOnRefresh: true,
+        },
+      }
     );
   });
 };
