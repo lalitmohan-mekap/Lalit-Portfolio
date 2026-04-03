@@ -8,6 +8,7 @@
   height: auto;
   width: var(--cWidth);
   margin: auto;
+  contain: layout style;
 }
 
 .about-me {
@@ -397,6 +398,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  contain: layout style;
 }
 
 .contact-section h3 {
@@ -748,9 +750,14 @@ a.contact-social {
   height: 300px;
   background-color: #fb8dff;
   box-shadow: inset -50px 40px 50px #5400ff99;
-  filter: blur(60px);
   border-radius: 50%;
   animation: loadingCircle 5s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .landing-circle1 {
+    filter: blur(60px);
+  }
 }
 
 .nav-fade {
@@ -788,9 +795,14 @@ a.contact-social {
   height: 300px;
   background-color: #fb8dff;
   box-shadow: inset -50px 40px 50px #5400ff99;
-  filter: blur(50px);
   border-radius: 50%;
   animation: loadingCircle2 5s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .landing-circle2 {
+    filter: blur(50px);
+  }
 }
 
 @keyframes loadingCircle2 {

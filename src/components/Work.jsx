@@ -60,14 +60,15 @@ export const Work = () => {
     const calculateDist = () => {
       const boxes = document.getElementsByClassName("work-box");
       if (boxes.length === 0) return;
-      const t = document
+      // Batch all layout reads together before any calculations
+      const containerLeft = document
         .querySelector(".work-container")
         .getBoundingClientRect().left;
-      const n = boxes[0].getBoundingClientRect();
-      const i = boxes[0].parentElement.getBoundingClientRect().width;
-      const padding =
-        parseInt(window.getComputedStyle(boxes[0]).paddingLeft) || 0;
-      dist = n.width * boxes.length - (t + i) + padding;
+      const boxRect = boxes[0].getBoundingClientRect();
+      const parentWidth = boxes[0].parentElement.getBoundingClientRect().width;
+      const computedStyle = window.getComputedStyle(boxes[0]);
+      const padding = parseInt(computedStyle.paddingLeft) || 0;
+      dist = boxRect.width * boxes.length - (containerLeft + parentWidth) + padding;
     };
 
     calculateDist();

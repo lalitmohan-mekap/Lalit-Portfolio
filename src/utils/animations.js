@@ -27,11 +27,10 @@ export const initialFX = () => {
     });
     gsap.fromTo(
       split1.chars,
-      { opacity: 0, y: 80, filter: "blur(5px)" },
+      { opacity: 0, y: 80 },
       {
         opacity: 1,
         duration: 1.2,
-        filter: "blur(0px)",
         ease: "power3.inOut",
         y: 0,
         stagger: 0.025,
@@ -48,11 +47,10 @@ export const initialFX = () => {
     });
     gsap.fromTo(
       split2.chars,
-      { opacity: 0, y: 80, filter: "blur(5px)" },
+      { opacity: 0, y: 80 },
       {
         opacity: 1,
         duration: 1.2,
-        filter: "blur(0px)",
         ease: "power3.inOut",
         y: 0,
         stagger: 0.025,

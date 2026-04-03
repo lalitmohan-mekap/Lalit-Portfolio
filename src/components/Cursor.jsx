@@ -86,39 +86,73 @@ export const SocialIcons = () => {
       const a = span.querySelector("a");
       if (!a) return;
 
-      let targetX = span.getBoundingClientRect().width / 2;
-      let targetY = span.getBoundingClientRect().height / 2;
-      let currX = 0;
-      let currY = 0;
+      // Cache rect — only recompute on resize, not every mousemove
+      let cachedRect = span.getBoundingClientRect();
+      let targetX = cachedRect.width / 2;
+      let targetY = cachedRect.height / 2;
+      let currX = targetX;
+      let currY = targetY;
+      let isHovered = false;
+      let rafId = null;
 
-      let rafId;
+      const handleResize = () => {
+        cachedRect = span.getBoundingClientRect();
+      };
+
+      // rAF loop — only runs during hover
       const render = () => {
         currX += 0.1 * (targetX - currX);
         currY += 0.1 * (targetY - currY);
         a.style.setProperty("--siLeft", `${currX}px`);
         a.style.setProperty("--siTop", `${currY}px`);
-        rafId = requestAnimationFrame(render);
+        if (isHovered) {
+          rafId = requestAnimationFrame(render);
+        } else {
+          rafId = null;
+        }
       };
 
       const handleMove = (e) => {
-        const rect = span.getBoundingClientRect();
-        const localX = e.clientX - rect.left;
-        const localY = e.clientY - rect.top;
+        const localX = e.clientX - cachedRect.left;
+        const localY = e.clientY - cachedRect.top;
         if (localX < 40 && localX > 10 && localY < 40 && localY > 5) {
           targetX = localX;
           targetY = localY;
         } else {
-          targetX = rect.width / 2;
-          targetY = rect.height / 2;
+          targetX = cachedRect.width / 2;
+          targetY = cachedRect.height / 2;
         }
       };
 
+      const handleEnter = () => {
+        isHovered = true;
+        cachedRect = span.getBoundingClientRect();
+        if (!rafId) rafId = requestAnimationFrame(render);
+      };
+
+      const handleLeave = () => {
+        isHovered = false;
+        targetX = cachedRect.width / 2;
+        targetY = cachedRect.height / 2;
+        // Run one final settle frame
+        if (!rafId) rafId = requestAnimationFrame(render);
+      };
+
+      span.addEventListener("mouseenter", handleEnter);
+      span.addEventListener("mouseleave", handleLeave);
       document.addEventListener("mousemove", handleMove);
-      render();
+      window.addEventListener("resize", handleResize);
+
+      // Initialize position without starting a loop
+      a.style.setProperty("--siLeft", `${currX}px`);
+      a.style.setProperty("--siTop", `${currY}px`);
 
       cleanupFns.push(() => {
+        span.removeEventListener("mouseenter", handleEnter);
+        span.removeEventListener("mouseleave", handleLeave);
         document.removeEventListener("mousemove", handleMove);
-        cancelAnimationFrame(rafId);
+        window.removeEventListener("resize", handleResize);
+        if (rafId) cancelAnimationFrame(rafId);
       });
     });
 

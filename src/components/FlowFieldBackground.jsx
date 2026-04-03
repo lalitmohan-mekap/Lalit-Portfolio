@@ -4,7 +4,7 @@ export default function FlowFieldBackground({
   className = "",
   color = "#c2a4ff", // Using the accent color
   trailOpacity = 0.15,
-  particleCount = 600,
+  particleCount = typeof window !== "undefined" && window.innerWidth <= 768 ? 300 : 600,
   speed = 1,
 }) {
   const canvasRef = useRef(null);
@@ -15,7 +15,7 @@ export default function FlowFieldBackground({
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
     let width = container.clientWidth;

@@ -249,7 +249,7 @@ export const TechStack = () => {
                   title={tech.name}
                   data-cursor="disable"
                 >
-                  <img src={tech.icon} alt={tech.name} />
+                  <img src={tech.icon} alt={tech.name} width="40" height="40" loading="lazy" />
                   <span>{tech.name}</span>
                 </a>
               ))}

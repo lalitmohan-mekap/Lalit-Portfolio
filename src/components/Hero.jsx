@@ -20,7 +20,7 @@ export const Hero = ({ children }) => {
           </div>
 
           <div className="hero-center-image">
-            <img src="./images/Lalit.png" alt="Lalit Portrait" />
+            <img src="./images/Lalit.png" alt="Lalit Portrait" width="500" height="600" />
           </div>
 
           <div className="landing-info">
@@ -36,7 +36,7 @@ export const Hero = ({ children }) => {
             </h2>
           </div>
           <div className="mobile-photo">
-            <img src="./images/Lalit.png" alt={config.developer.fullName} />
+            <img src="./images/Lalit.png" alt={config.developer.fullName} width="380" height="456" />
           </div>
         </div>
         {children}
