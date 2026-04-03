@@ -84,8 +84,8 @@ export const setupScrollAnimations = () => {
 
   paras.forEach((el) => {
     el.classList.add("visible");
+    if (el.st) el.st.kill();
     if (el.anim) {
-      el.anim.scrollTrigger?.kill();
       el.anim.kill();
       el.split?.revert?.();
     }
@@ -95,9 +95,8 @@ export const setupScrollAnimations = () => {
       lineClass: "split-line",
     });
 
-    // Use GSAP's native toggleActions instead of manual play()/reverse() callbacks.
-    // toggleActions handles rapid scroll state changes internally — no glitch on mobile touch.
-    // Format: "onEnter onLeave onEnterBack onLeaveBack"
+    // Create a PAUSED tween — controlled manually via ScrollTrigger callbacks.
+    // Use the element itself (el) as the trigger for more precise reveal.
     el.anim = gsap.fromTo(
       el.split.words,
       { autoAlpha: 0, y: 50 },
@@ -107,19 +106,22 @@ export const setupScrollAnimations = () => {
         duration: 0.7,
         ease: "power3.out",
         stagger: 0.02,
-        scrollTrigger: {
-          trigger: el,
-          start: startPos,
-          invalidateOnRefresh: true,
-          toggleActions: "play none none reverse",
-        },
+        paused: true,
       }
     );
+
+    el.st = ScrollTrigger.create({
+      trigger: el,
+      start: startPos,
+      invalidateOnRefresh: true,
+      onEnter: () => el.anim.play(),
+      onLeaveBack: () => el.anim.reverse(),
+    });
   });
 
   titles.forEach((el) => {
+    if (el.st) el.st.kill();
     if (el.anim) {
-      el.anim.scrollTrigger?.kill();
       el.anim.kill();
       el.split?.revert?.();
     }
@@ -139,14 +141,17 @@ export const setupScrollAnimations = () => {
         duration: 0.7,
         ease: "power2.out",
         stagger: 0.03,
-        scrollTrigger: {
-          trigger: el,
-          start: startPos,
-          invalidateOnRefresh: true,
-          toggleActions: "play none none reverse",
-        },
+        paused: true,
       }
     );
+
+    el.st = ScrollTrigger.create({
+      trigger: el,
+      start: startPos,
+      invalidateOnRefresh: true,
+      onEnter: () => el.anim.play(),
+      onLeaveBack: () => el.anim.reverse(),
+    });
   });
 };
 
