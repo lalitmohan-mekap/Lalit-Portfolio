@@ -110,25 +110,29 @@ export const setupScrollAnimations = () => {
       }
     );
 
-    // On mobile, debounce to prevent rapid touch-scroll from flickering the animation
-    let lastTrigger = 0;
-    const DEBOUNCE = isMobile ? 400 : 0;
+    // Direction lock for mobile: block direction changes while animation is mid-flight
+    // This prevents touch-bounce from rapidly toggling play/reverse
+    let lockedDir = 0; // 0=unlocked, 1=forward, -1=reverse
 
     el.st = ScrollTrigger.create({
       trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
       onEnter: () => {
-        const now = Date.now();
-        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
-        lastTrigger = now;
+        if (isMobile && lockedDir === -1 && el.anim.isActive()) return;
+        lockedDir = isMobile ? 1 : 0;
         el.anim.play();
+        if (isMobile) {
+          el.anim.eventCallback("onComplete", () => { lockedDir = 0; });
+        }
       },
       onLeaveBack: () => {
-        const now = Date.now();
-        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
-        lastTrigger = now;
+        if (isMobile && lockedDir === 1 && el.anim.isActive()) return;
+        lockedDir = isMobile ? -1 : 0;
         el.anim.reverse();
+        if (isMobile) {
+          el.anim.eventCallback("onReverseComplete", () => { lockedDir = 0; });
+        }
       },
     });
   });
@@ -159,25 +163,28 @@ export const setupScrollAnimations = () => {
       }
     );
 
-    // On mobile, debounce to prevent rapid touch-scroll from flickering the animation
-    let lastTrigger = 0;
-    const DEBOUNCE = isMobile ? 400 : 0;
+    // Direction lock for mobile: block direction changes while animation is mid-flight
+    let lockedDir = 0;
 
     el.st = ScrollTrigger.create({
       trigger: el,
       start: startPos,
       invalidateOnRefresh: true,
       onEnter: () => {
-        const now = Date.now();
-        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
-        lastTrigger = now;
+        if (isMobile && lockedDir === -1 && el.anim.isActive()) return;
+        lockedDir = isMobile ? 1 : 0;
         el.anim.play();
+        if (isMobile) {
+          el.anim.eventCallback("onComplete", () => { lockedDir = 0; });
+        }
       },
       onLeaveBack: () => {
-        const now = Date.now();
-        if (now - lastTrigger < DEBOUNCE && el.anim.isActive()) return;
-        lastTrigger = now;
+        if (isMobile && lockedDir === 1 && el.anim.isActive()) return;
+        lockedDir = isMobile ? -1 : 0;
         el.anim.reverse();
+        if (isMobile) {
+          el.anim.eventCallback("onReverseComplete", () => { lockedDir = 0; });
+        }
       },
     });
   });
