@@ -84,8 +84,8 @@ export const setupScrollAnimations = () => {
 
   paras.forEach((el) => {
     el.classList.add("visible");
-    if (el.st) el.st.kill();
     if (el.anim) {
+      el.anim.scrollTrigger?.kill();
       el.anim.kill();
       el.split?.revert?.();
     }
@@ -95,8 +95,9 @@ export const setupScrollAnimations = () => {
       lineClass: "split-line",
     });
 
-    // Create a PAUSED tween — controlled manually via ScrollTrigger callbacks.
-    // Use the element itself (el) as the trigger for more precise reveal.
+    // Use GSAP's native toggleActions instead of manual play()/reverse() callbacks.
+    // toggleActions handles rapid scroll state changes internally — no glitch on mobile touch.
+    // Format: "onEnter onLeave onEnterBack onLeaveBack"
     el.anim = gsap.fromTo(
       el.split.words,
       { autoAlpha: 0, y: 50 },
@@ -106,40 +107,19 @@ export const setupScrollAnimations = () => {
         duration: 0.7,
         ease: "power3.out",
         stagger: 0.02,
-        paused: true,
+        scrollTrigger: {
+          trigger: el,
+          start: startPos,
+          invalidateOnRefresh: true,
+          toggleActions: "play none none reverse",
+        },
       }
     );
-
-    // Direction lock for mobile: block direction changes while animation is mid-flight
-    // This prevents touch-bounce from rapidly toggling play/reverse
-    let lockedDir = 0; // 0=unlocked, 1=forward, -1=reverse
-
-    el.st = ScrollTrigger.create({
-      trigger: el,
-      start: startPos,
-      invalidateOnRefresh: true,
-      onEnter: () => {
-        if (isMobile && lockedDir === -1 && el.anim.isActive()) return;
-        lockedDir = isMobile ? 1 : 0;
-        el.anim.play();
-        if (isMobile) {
-          el.anim.eventCallback("onComplete", () => { lockedDir = 0; });
-        }
-      },
-      onLeaveBack: () => {
-        if (isMobile && lockedDir === 1 && el.anim.isActive()) return;
-        lockedDir = isMobile ? -1 : 0;
-        el.anim.reverse();
-        if (isMobile) {
-          el.anim.eventCallback("onReverseComplete", () => { lockedDir = 0; });
-        }
-      },
-    });
   });
 
   titles.forEach((el) => {
-    if (el.st) el.st.kill();
     if (el.anim) {
+      el.anim.scrollTrigger?.kill();
       el.anim.kill();
       el.split?.revert?.();
     }
@@ -159,34 +139,14 @@ export const setupScrollAnimations = () => {
         duration: 0.7,
         ease: "power2.out",
         stagger: 0.03,
-        paused: true,
+        scrollTrigger: {
+          trigger: el,
+          start: startPos,
+          invalidateOnRefresh: true,
+          toggleActions: "play none none reverse",
+        },
       }
     );
-
-    // Direction lock for mobile: block direction changes while animation is mid-flight
-    let lockedDir = 0;
-
-    el.st = ScrollTrigger.create({
-      trigger: el,
-      start: startPos,
-      invalidateOnRefresh: true,
-      onEnter: () => {
-        if (isMobile && lockedDir === -1 && el.anim.isActive()) return;
-        lockedDir = isMobile ? 1 : 0;
-        el.anim.play();
-        if (isMobile) {
-          el.anim.eventCallback("onComplete", () => { lockedDir = 0; });
-        }
-      },
-      onLeaveBack: () => {
-        if (isMobile && lockedDir === 1 && el.anim.isActive()) return;
-        lockedDir = isMobile ? -1 : 0;
-        el.anim.reverse();
-        if (isMobile) {
-          el.anim.eventCallback("onReverseComplete", () => { lockedDir = 0; });
-        }
-      },
-    });
   });
 };
 
