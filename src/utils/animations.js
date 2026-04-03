@@ -80,24 +80,26 @@ export const setupScrollAnimations = () => {
 
   const isMobile = window.innerWidth <= 768;
   const startPos = isMobile ? "top 85%" : "20% 80%";
-  const toggleActions = "play none none reverse";
 
   const paras = document.querySelectorAll(".para");
   const titles = document.querySelectorAll(".title");
 
   paras.forEach((el) => {
     el.classList.add("visible");
+    if (el.st) el.st.kill();
     if (el.anim) {
-      el.anim.scrollTrigger?.kill();
       el.anim.kill();
       el.split?.revert?.();
     }
 
     el.split = new SplitType(el, {
-      types: isMobile ? "lines,words" : "lines,words",
+      types: "lines,words",
       lineClass: "split-line",
     });
 
+    // Create a PAUSED tween — controlled manually via ScrollTrigger callbacks.
+    // tween.play() is a no-op if already playing/completed, so rapid
+    // mobile taps near the trigger threshold won't cause visible restarts.
     el.anim = gsap.fromTo(
       el.split.words,
       { autoAlpha: 0, y: 50 },
@@ -107,19 +109,22 @@ export const setupScrollAnimations = () => {
         duration: 0.6,
         ease: "power3.out",
         stagger: 0.02,
-        scrollTrigger: {
-          trigger: el.parentElement?.parentElement,
-          start: startPos,
-          toggleActions,
-          invalidateOnRefresh: true,
-        },
+        paused: true,
       }
     );
+
+    el.st = ScrollTrigger.create({
+      trigger: el.parentElement?.parentElement,
+      start: startPos,
+      invalidateOnRefresh: true,
+      onEnter: () => el.anim.play(),
+      onLeaveBack: () => el.anim.reverse(),
+    });
   });
 
   titles.forEach((el) => {
+    if (el.st) el.st.kill();
     if (el.anim) {
-      el.anim.scrollTrigger?.kill();
       el.anim.kill();
       el.split?.revert?.();
     }
@@ -139,14 +144,17 @@ export const setupScrollAnimations = () => {
         duration: 0.7,
         ease: "power2.out",
         stagger: 0.03,
-        scrollTrigger: {
-          trigger: el.parentElement?.parentElement,
-          start: startPos,
-          toggleActions,
-          invalidateOnRefresh: true,
-        },
+        paused: true,
       }
     );
+
+    el.st = ScrollTrigger.create({
+      trigger: el.parentElement?.parentElement,
+      start: startPos,
+      invalidateOnRefresh: true,
+      onEnter: () => el.anim.play(),
+      onLeaveBack: () => el.anim.reverse(),
+    });
   });
 };
 

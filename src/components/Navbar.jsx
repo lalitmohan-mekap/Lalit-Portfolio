@@ -29,7 +29,8 @@ export const Navbar = () => {
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1.7,
-      touchMultiplier: 2,
+      syncTouch: true,
+      touchMultiplier: 1.5,
       infinite: false,
     });
 
