@@ -128,6 +128,16 @@ export const config = {
     },
     {
       id: 3,
+      title: "Electric Bill Splitter",
+      category: "Utility",
+      technologies: "HTML5, CSS3, JavaScript, Java",
+      image: "./images/electric-bill.png",
+      link: "https://lalitmohan-mekap.github.io/Electricity_Bill_Splitter/",
+      description:
+        "A fair way to split electricity bills across multiple users sharing a single meter using the Divided Slab Method. Features proportional allocation of energy tiers and a modern glassmorphism UI.",
+    },
+    {
+      id: 4,
       title: "Local AI Agent Platform",
       category: "AI / Agents",
       technologies: "Python, MCP Servers, OpenClaw, NemoClaw, Claude",
@@ -136,7 +146,7 @@ export const config = {
         "Configured local AI models and implemented MCP servers to create sophisticated agent frameworks for data processing and tool utilization. Applied systematic troubleshooting to refine model responses.",
     },
     {
-      id: 4,
+      id: 5,
       title: "System Monitor Tool",
       category: "c++",
       technologies: "C++",
@@ -144,6 +154,16 @@ export const config = {
       link: "https://github.com/lalitmohan-mekap/System-Monitor-Tool",
       description:
         "A lightweight System Monitor Tool written in C++ that displays real-time information about running processes, CPU usage, memory load, and system statistics — similar to the Linux top command.",
+    },
+    {
+      id: 6,
+      title: "Election Process Education",
+      category: "Web Application",
+      technologies: "React, TypeScript, Framer Motion, Tailwind CSS",
+      image: "./images/election-process.png",
+      link: "https://lalitmohan-mekap.github.io/Election-Process-Education/",
+      description:
+        "A modern, interactive web application that teaches citizens how elections work around the world. The platform combines rich animations, real-world data, and mobile-first responsive design to make civic education engaging and accessible.",
     },
   ],
   contact: {
