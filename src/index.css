@@ -1,3 +1,7 @@
+html {
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+}
 /* Fonts loaded via <link> tags in index.html for non-blocking rendering */
 .elegant-serif-name {
   font-family: "Playfair Display", serif !important;

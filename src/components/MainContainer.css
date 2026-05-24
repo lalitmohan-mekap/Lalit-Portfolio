@@ -708,6 +708,7 @@ a.contact-social {
     position: relative !important;
     width: 100%;
     max-width: 380px;
+    aspect-ratio: 5 / 6;
     margin: 0 auto;
     z-index: 1;
     order: 2;
@@ -2357,11 +2358,12 @@ div.resume-button span {
 
 .hero-center-image {
   position: absolute;
-  top: 63%;
+  bottom: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 55vh;
-  height: auto;
+  transform: translateX(-50%);
+  height: 85vh;
+  width: auto;
+  aspect-ratio: 5 / 6;
   min-width: 300px;
   z-index: 5;
   display: flex;
@@ -2374,12 +2376,12 @@ div.resume-button span {
 @keyframes heroImgFadeIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, 10%);
   }
 
   to {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
   }
 }
 

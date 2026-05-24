@@ -17,25 +17,17 @@ export const Cursor = () => {
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
+      if (!isActive) {
+        moveX(mouse.x);
+        moveY(mouse.y);
+      }
     };
 
     document.addEventListener("mousemove", handleMouseMove);
 
-    const moveX = gsap.quickTo(cursor, "x", { duration: 0.1 });
-    const moveY = gsap.quickTo(cursor, "y", { duration: 0.1 });
-
-    let rafId;
-    const render = () => {
-      if (!isActive) {
-        const speed = 6;
-        pos.x += (mouse.x - pos.x) / speed;
-        pos.y += (mouse.y - pos.y) / speed;
-        moveX(pos.x);
-        moveY(pos.y);
-      }
-      rafId = requestAnimationFrame(render);
-    };
-    rafId = requestAnimationFrame(render);
+    // Using quickTo for performant, snappy hardware-accelerated movement
+    const moveX = gsap.quickTo(cursor, "x", { duration: 0.15, ease: "power3.out" });
+    const moveY = gsap.quickTo(cursor, "y", { duration: 0.15, ease: "power3.out" });
 
     const interactiveElements = document.querySelectorAll("[data-cursor]");
     const handleMouseOver = (e) => {
@@ -64,7 +56,6 @@ export const Cursor = () => {
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
-      cancelAnimationFrame(rafId);
       interactiveElements.forEach((el) => {
         el.removeEventListener("mouseover", handleMouseOver);
         el.removeEventListener("mouseout", handleMouseOut);

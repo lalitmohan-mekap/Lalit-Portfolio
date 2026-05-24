@@ -23,9 +23,11 @@ import {
   setupCareerAnimation,
 } from "../utils/animations";
 
+let hasPlayedPreloader = false;
+
 export const MainContainer = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!hasPlayedPreloader);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -67,7 +69,10 @@ export const MainContainer = () => {
 
   return (
     <>
-      {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      {isLoading && <Preloader onComplete={() => {
+        setIsLoading(false);
+        hasPlayedPreloader = true;
+      }} />}
       <div className="container-main">
         <Cursor />
         <Navbar />

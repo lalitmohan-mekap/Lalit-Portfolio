@@ -6,16 +6,50 @@ import FlowFieldBackground from "./FlowFieldBackground";
 import { Cursor } from "./Cursor";
 import "./MyWorks.css";
 
+import Lenis from "lenis";
+
 export const MyWorks = () => {
   useEffect(() => {
     // Scroll to top when loading the page
     window.scrollTo(0, 0);
+
+    // Initialize Lenis smooth scrolling for this page too
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const lenis = new Lenis({
+      duration: 1.7,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 1.7,
+      syncTouch: false,
+      touchMultiplier: isTouchDevice ? 1 : 1.5,
+      infinite: false,
+    });
+
+    const raf = (time) => {
+      lenis.raf(time);
+    };
+
+    requestAnimationFrame(raf);
+    
+    let animationFrameId;
+    const loop = (time) => {
+      lenis.raf(time);
+      animationFrameId = requestAnimationFrame(loop);
+    };
+    animationFrameId = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      lenis.destroy();
+    };
   }, []);
 
   return (
     <div className="myworks-page" style={{ position: "relative" }}>
       <Cursor />
-      <FlowFieldBackground color="#c2a4ff" particleCount={500} speed={1} trailOpacity={0.15} />
+      <FlowFieldBackground color="#c2a4ff" particleCount={250} speed={1} trailOpacity={0.15} />
       <div className="myworks-nav">
         <Link to="/" className="back-link">
           <ArrowLeft size={20} /> Back to Home
