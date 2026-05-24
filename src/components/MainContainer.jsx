@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import Navbar from "./Navbar";
+import Navbar, { lenisInstance } from "./Navbar";
 import { Cursor, SocialIcons } from "./Cursor";
 import Hero from "./Hero";
 import About from "./About";
@@ -11,6 +11,7 @@ import Career from "./Career";
 import Work from "./Work";
 import TechStack from "./TechStack";
 import Contact from "./Contact";
+import Preloader from "./Preloader";
 
 import "./MainContainer.css";
 
@@ -24,6 +25,7 @@ import {
 
 export const MainContainer = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+  const [isLoading, setIsLoading] = useState(true);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -39,42 +41,51 @@ export const MainContainer = () => {
       // ScrollTrigger.refresh() (via invalidateOnRefresh) handles height changes.
       if (newWidth !== lastWidth) {
         lastWidth = newWidth;
-        setupScrollAnimations();
+        if (initialized.current) {
+          setupScrollAnimations();
+        }
       }
     };
-
-    // Delay slightly to ensure fonts have loaded before measuring splits
-    if (!initialized.current) {
-      initialized.current = true;
-      setTimeout(() => {
-        initialFX();
-        setupScrollAnimations();
-        setupCareerAnimation();
-      }, 100);
-    }
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (!isLoading && !initialized.current) {
+      initialized.current = true;
+      initialFX();
+      setupScrollAnimations();
+      setupCareerAnimation();
+    } else if (isLoading) {
+      document.body.style.overflowY = "hidden";
+      if (lenisInstance) {
+        lenisInstance.stop();
+      }
+    }
+  }, [isLoading]);
+
   return (
-    <div className="container-main">
-      <Cursor />
-      <Navbar />
-      <SocialIcons />
+    <>
+      {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      <div className="container-main">
+        <Cursor />
+        <Navbar />
+        <SocialIcons />
 
-      {isDesktop && <div className="background-elements"></div>}
+        {isDesktop && <div className="background-elements"></div>}
 
-      <div className="content-wrapper">
-        <Hero />
-        <About />
-        <WhatIDo />
-        <Career />
-        <Work />
-        <TechStack />
-        <Contact />
+        <div className="content-wrapper">
+          <Hero />
+          <About />
+          <WhatIDo />
+          <Career />
+          <Work />
+          <TechStack />
+          <Contact />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
