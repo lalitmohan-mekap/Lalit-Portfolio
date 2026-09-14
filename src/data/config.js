@@ -97,22 +97,6 @@ export const config = {
         "Data Structures",
         "Algorithms"
       ]
-    },
-    {
-      "position": "ai",
-      "company": "Company",
-      "period": "2026",
-      "location": "Location",
-      "description": "Description...kjeh ejhej",
-      "responsibilities": [
-        "4s",
-        "4e"
-      ],
-      "technologies": [
-        "Python",
-        "Java",
-        "C++"
-      ]
     }
   ],
   "projects": [
@@ -168,15 +152,6 @@ export const config = {
       "image": "./images/election-process.png",
       "link": "https://lalitmohan-mekap.github.io/Election-Process-Education/",
       "description": "A modern, interactive web application that teaches citizens how elections work around the world. The platform combines rich animations, real-world data, and mobile-first responsive design to make civic education engaging and accessible."
-    },
-    {
-      "id": 1789408442196,
-      "title": "New Project",
-      "category": "Category",
-      "technologies": "jslw",
-      "image": "./images/project-1789408475270-ChatGPT-Image-Aug-26,-2026,-08_30_16-PM.png",
-      "link": "dsm",
-      "description": "Project description..."
     }
   ],
   "contact": {
