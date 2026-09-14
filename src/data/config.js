@@ -97,21 +97,6 @@ export const config = {
         "Data Structures",
         "Algorithms"
       ]
-    },
-    {
-      "position": "New Position",
-      "company": "Company",
-      "period": "now",
-      "location": "Location",
-      "description": "Description...hysi sjuns hisb",
-      "responsibilities": [
-        "bwns",
-        "ej"
-      ],
-      "technologies": [
-        "hass",
-        "test"
-      ]
     }
   ],
   "projects": [
