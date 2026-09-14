@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { config } from "../data/config";
+import { useConfig } from "../hooks/useConfig";
 
 export const Cursor = () => {
   const cursorRef = useRef(null);
@@ -12,7 +12,6 @@ export const Cursor = () => {
     if (!cursor) return;
 
     const mouse = { x: 0, y: 0 };
-    const pos = { x: 0, y: 0 };
 
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
@@ -67,6 +66,7 @@ export const Cursor = () => {
 };
 
 export const SocialIcons = () => {
+  const { config } = useConfig();
   useEffect(() => {
     const parent = document.getElementById("social");
     if (!parent) return;
@@ -206,8 +206,8 @@ export const SocialIcons = () => {
       </div>
       <a
         className="resume-button"
-        href={`${import.meta.env.BASE_URL}Lalit_Mohan_Mekap_Resume.pdf`}
-        download="Lalit_Mohan_Mekap_Resume.pdf"
+        href={`${import.meta.env.BASE_URL}${config.developer.resumeUrl || "Lalit_Mohan_Mekap_Resume.pdf"}`}
+        download={config.developer.resumeUrl || "Lalit_Mohan_Mekap_Resume.pdf"}
       >
         <div>RESUME</div>
         <span>

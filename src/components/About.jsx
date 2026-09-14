@@ -1,7 +1,8 @@
 import React from "react";
-import { config } from "../data/config";
+import { useConfig } from "../hooks/useConfig";
 
 export const About = () => {
+  const { config } = useConfig();
   return (
     <div className="about-section" id="about">
       <div className="about-me">

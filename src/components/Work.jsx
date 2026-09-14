@@ -1,58 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
-import { config } from "../data/config";
+import { useConfig } from "../hooks/useConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const WorkBoxImage = ({ link, video, image, alt }) => {
-  const [hover, setHover] = useState(false);
-  const [vidSrc, setVidSrc] = useState("");
-
-  useEffect(() => {
-    return () => {
-      if (vidSrc) {
-        URL.revokeObjectURL(vidSrc);
-      }
-    };
-  }, [vidSrc]);
-
+const WorkBoxImage = ({ link, image, alt }) => {
   return (
     <div className="work-image">
       <a
         className="work-image-in"
         href={link || "#"}
-        onMouseEnter={async () => {
-          if (video) {
-            setHover(true);
-            if (vidSrc) {
-              URL.revokeObjectURL(vidSrc);
-            }
-            try {
-              const e = await fetch(`/${video}`);
-              const t = await e.blob();
-              setVidSrc(URL.createObjectURL(t));
-            } catch (err) {
-              console.error("Error loading video:", err);
-            }
-          }
-        }}
-        onMouseLeave={() => setHover(false)}
         target={link ? "_blank" : "_self"}
         rel="noopener noreferrer"
         data-cursor="disable"
       >
         <img src={image} alt={alt} />
-        {hover && vidSrc && (
-          <video src={vidSrc} autoPlay muted playsInline loop />
-        )}
       </a>
     </div>
   );
 };
 
 export const Work = () => {
+  const { config } = useConfig();
   useEffect(() => {
     if (window.innerWidth <= 1024) return;
 
@@ -135,7 +106,6 @@ export const Work = () => {
               </div>
               <WorkBoxImage
                 link={proj.link}
-                video={proj.video}
                 image={proj.image}
                 alt={proj.title}
               />

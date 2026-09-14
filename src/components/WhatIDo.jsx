@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { config } from "../data/config";
+import { useConfig } from "../hooks/useConfig";
 
 export const WhatIDo = () => {
+  const { config } = useConfig();
   const contentRefs = useRef([]);
 
   const setRef = (el, i) => {
@@ -24,14 +25,15 @@ export const WhatIDo = () => {
   };
 
   useEffect(() => {
-    // Handling generic touch logic manually instead of ScrollTrigger.isTouch for simplicity
     const isTouch =
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0 ||
       navigator.msMaxTouchPoints > 0;
 
+    const currentRefs = contentRefs.current;
+
     if (isTouch) {
-      contentRefs.current.forEach((el) => {
+      currentRefs.forEach((el) => {
         if (el) {
           el.classList.remove("what-noTouch");
           el.addEventListener("click", handleClick);
@@ -40,7 +42,7 @@ export const WhatIDo = () => {
     }
 
     return () => {
-      contentRefs.current.forEach((el) => {
+      currentRefs.forEach((el) => {
         if (el) {
           el.removeEventListener("click", handleClick);
         }

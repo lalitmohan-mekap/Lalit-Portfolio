@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Mail, MapPin, Map, Send } from "lucide-react";
+import { Mail, MapPin, Send, Lock } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { config } from "../data/config";
+import { useConfig } from "../hooks/useConfig";
 import { LocationMap } from "./LocationMap";
 import "./Contact.css";
 
@@ -27,6 +27,7 @@ const InstagramIcon = () => (
 );
 
 export const Contact = () => {
+  const { config } = useConfig();
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
@@ -101,7 +102,7 @@ export const Contact = () => {
         }
         setSubmitStatus("error");
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     }
 
@@ -338,6 +339,9 @@ export const Contact = () => {
         <p>
           Designed and developed by <span className="footer-name">Lalit</span> ©{" "}
           {new Date().getFullYear()}
+          <a href="#/admin" className="admin-lock-link" aria-label="Admin Login" data-cursor="disable">
+            <Lock size={12} />
+          </a>
         </p>
       </footer>
     </div>

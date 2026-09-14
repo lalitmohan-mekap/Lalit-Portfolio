@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { config } from "../data/config";
 import "./Navbar.css";
 import AnimatedLogo from "./AnimatedLogo";
 

@@ -1,5 +1,71 @@
 import React, { useEffect, useRef } from "react";
 
+class Particle {
+  constructor(width, height) {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = 0;
+    this.vy = 0;
+    this.age = 0;
+    this.life = Math.random() * 200 + 100;
+  }
+
+  update(width, height, speed, mouse) {
+    // 1. Flow Field Math
+    const angle = (Math.cos(this.x * 0.005) + Math.sin(this.y * 0.005)) * Math.PI;
+
+    // 2. Add force
+    this.vx += Math.cos(angle) * 0.2 * speed;
+    this.vy += Math.sin(angle) * 0.2 * speed;
+
+    // 3. Mouse Repulsion/Attraction
+    const dx = mouse.x - this.x;
+    const dy = mouse.y - this.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const interactionRadius = 150;
+
+    if (distance < interactionRadius) {
+      const force = (interactionRadius - distance) / interactionRadius;
+      this.vx -= dx * force * 0.05;
+      this.vy -= dy * force * 0.05;
+    }
+
+    // 4. Transform and Friction
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vx *= 0.95;
+    this.vy *= 0.95;
+
+    // 5. Aging
+    this.age++;
+    if (this.age > this.life) {
+      this.reset(width, height);
+    }
+
+    // 6. Wrap bounds
+    if (this.x < 0) this.x = width;
+    if (this.x > width) this.x = 0;
+    if (this.y < 0) this.y = height;
+    if (this.y > height) this.y = 0;
+  }
+
+  reset(width, height) {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = 0;
+    this.vy = 0;
+    this.age = 0;
+    this.life = Math.random() * 200 + 100;
+  }
+
+  draw(context, color) {
+    context.fillStyle = color;
+    const alpha = Math.max(0, 1 - Math.abs((this.age / this.life) - 0.5) * 2);
+    context.globalAlpha = alpha;
+    context.fillRect(this.x, this.y, 1.5, 1.5);
+  }
+}
+
 export default function FlowFieldBackground({
   className = "",
   color = "#c2a4ff", // Using the accent color
@@ -24,72 +90,6 @@ export default function FlowFieldBackground({
     let animationFrameId;
     let mouse = { x: -1000, y: -1000 };
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = 0;
-        this.vy = 0;
-        this.age = 0;
-        this.life = Math.random() * 200 + 100;
-      }
-
-      update() {
-        // 1. Flow Field Math
-        const angle = (Math.cos(this.x * 0.005) + Math.sin(this.y * 0.005)) * Math.PI;
-        
-        // 2. Add force
-        this.vx += Math.cos(angle) * 0.2 * speed;
-        this.vy += Math.sin(angle) * 0.2 * speed;
-
-        // 3. Mouse Repulsion/Attraction
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const interactionRadius = 150;
-
-        if (distance < interactionRadius) {
-          const force = (interactionRadius - distance) / interactionRadius;
-          this.vx -= dx * force * 0.05;
-          this.vy -= dy * force * 0.05;
-        }
-
-        // 4. Transform and Friction
-        this.x += this.vx;
-        this.y += this.vy;
-        this.vx *= 0.95;
-        this.vy *= 0.95;
-
-        // 5. Aging
-        this.age++;
-        if (this.age > this.life) {
-          this.reset();
-        }
-
-        // 6. Wrap bounds
-        if (this.x < 0) this.x = width;
-        if (this.x > width) this.x = 0;
-        if (this.y < 0) this.y = height;
-        if (this.y > height) this.y = 0;
-      }
-
-      reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = 0;
-        this.vy = 0;
-        this.age = 0;
-        this.life = Math.random() * 200 + 100;
-      }
-
-      draw(context) {
-        context.fillStyle = color;
-        const alpha = Math.max(0, 1 - Math.abs((this.age / this.life) - 0.5) * 2);
-        context.globalAlpha = alpha;
-        context.fillRect(this.x, this.y, 1.5, 1.5);
-      }
-    }
-
     const init = () => {
       const dpr = window.devicePixelRatio || 1;
       canvas.width = width * dpr;
@@ -100,7 +100,7 @@ export default function FlowFieldBackground({
 
       particles = [];
       for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+        particles.push(new Particle(width, height));
       }
     };
 
@@ -110,8 +110,8 @@ export default function FlowFieldBackground({
       ctx.fillRect(0, 0, width, height);
 
       particles.forEach((p) => {
-        p.update();
-        p.draw(ctx);
+        p.update(width, height, speed, mouse);
+        p.draw(ctx, color);
       });
 
       animationFrameId = requestAnimationFrame(animate);

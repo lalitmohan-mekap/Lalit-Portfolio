@@ -7,14 +7,20 @@ const words = ["Hello", "Bonjour", "Namaste", "Ciao", "Olá", "Guten Tag"];
 export default function Preloader({ onComplete }) {
   const [index, setIndex] = useState(0);
   const [count, setCount] = useState(0);
-  const [dimension, setDimension] = useState({ width: 0, height: 0 });
+  const [dimension, setDimension] = useState(() => ({
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
+  }));
   const [isExiting, setIsExiting] = useState(false);
   const orbsRef = useRef(null);
   const progressRef = useRef(null);
-  const countRef = useRef(null);
 
   useEffect(() => {
-    setDimension({ width: window.innerWidth, height: window.innerHeight });
+    const handleResize = () => {
+      setDimension({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Animated counter 0 → 100

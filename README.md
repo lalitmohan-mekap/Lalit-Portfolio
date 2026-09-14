@@ -1,92 +1,108 @@
 # 🌐 Lalit Mohan Mekap — Portfolio
 
-Personal portfolio website of **ME**.
-This project showcases skills, projects, and contact information in a modern responsive UI.
+Personal portfolio website of **Lalit Mohan Mekap**, an AI & Full-Stack Developer based in Bhubaneswar, India.
+Showcases machine learning research, software engineering projects, technical skills, and an interactive contact interface.
 
-## 🔗 Portfolio Website
+## 🔗 Live Portfolio
 
-* https://lalitmohan-mekap.github.io/Lalit-Portfolio/
+* **[https://lalitmohan-mekap.github.io/Lalit-Portfolio/](https://lalitmohan-mekap.github.io/Lalit-Portfolio/)**
+
+---
 
 ## 🚀 Tech Stack
 
-This portfolio is built using modern frontend technologies:
-
-* **React 19**
-* **TypeScript**
-* **Vite**
-* **Tailwind CSS**
-* **shadcn/ui**
-* **Radix UI**
-* **Framer Motion**
-* **React Hook Form**
-* **Lucide Icons**
-
-The project uses **Node.js 20** with **Vite** as the development and build tool. 
+- **Core**: React 19, JavaScript (ESNext), HTML5
+- **Build & Tooling**: Vite 8, ESLint (Flat Config)
+- **Styling**: Vanilla CSS (modular design system with custom properties & glassmorphism)
+- **Animation & Motion**:
+  - GSAP 3.14 (ScrollTrigger & ticker synchronization)
+  - Framer Motion 12 (Spring physics, 3D perspective transforms & SVG transitions)
+  - SplitType (Kinetic typography & text stagger reveals)
+  - Lenis (Smooth momentum scrolling)
+- **Icons**: Lucide React & custom animated SVGs
+- **Services**: Formspree (contact form endpoint)
 
 ---
 
 ## 📂 Project Structure
 
 ```
-project-root
-│
-├── src
-│   ├── components/        # UI components
-│   ├── sections/          # Portfolio sections
-│   ├── hooks/             # Custom React hooks
-│   ├── types/             # TypeScript type definitions
-│   ├── App.tsx            # Root React component
-│   ├── main.tsx           # Application entry point
-│   └── index.css          # Global styles
-│
-├── index.html             # HTML entry file
-├── tailwind.config.js     # Tailwind configuration
-├── vite.config.ts         # Vite configuration
-├── postcss.config.js      # PostCSS configuration
+Lalit-Portfolio/
+├── public/
+│   ├── images/                 # Project screenshots & portfolio media
+│   ├── video/                  # Background tech stack video (video.webm)
+│   ├── favicon.svg             # Website favicon
+│   └── Lalit_Mohan_Mekap_Resume.pdf
+├── src/
+│   ├── assets/                 # Local images & static assets
+│   ├── components/
+│   │   ├── About.jsx           # About bio section with split-text reveal
+│   │   ├── AnimatedLogo.jsx    # Custom neon-stroke SVG logo
+│   │   ├── Career.jsx          # Scrubbed experience & education timeline
+│   │   ├── Contact.jsx         # Contact form with validation & social links
+│   │   ├── Cursor.jsx          # Hardware-accelerated cursor & magnetic social dock
+│   │   ├── FlowFieldBackground.jsx # HTML5 Canvas trigonometric particle simulation
+│   │   ├── Hero.jsx            # Kinetic hero section with glowing portrait
+│   │   ├── LocationMap.jsx     # 3D interactive tilt blueprint map widget
+│   │   ├── MainContainer.jsx   # Main single-page scroll layout
+│   │   ├── MyWorks.jsx         # Full project archive route (/myworks)
+│   │   ├── Navbar.jsx          # Glassmorphism header with smooth scroll links
+│   │   ├── Preloader.jsx       # Multilingual liquid curtain entrance preloader
+│   │   ├── TechStack.jsx       # 6-tier interactive pyramid tech stack
+│   │   └── Work.jsx            # Horizontal pinned work showcase
+│   ├── data/
+│   │   └── config.js           # Central developer data, projects & experiences
+│   ├── utils/
+│   │   └── animations.js       # GSAP & ScrollTrigger animation utilities
+│   ├── App.jsx                 # Route definition (HashRouter)
+│   ├── index.css               # Design system tokens & global styling
+│   └── main.jsx                # Application root entry point
+├── index.html
+├── vite.config.js
+├── eslint.config.js
 └── package.json
 ```
 
 ---
 
-## 🎨 UI System
+## ✨ Key Features
 
-This project uses **shadcn/ui components with Tailwind CSS**, providing a modern component system with Radix primitives and accessible UI patterns. 
-
-Available UI components include:
-
-* Buttons
-* Cards
-* Dialogs
-* Tabs
-* Tooltips
-* Dropdown menus
-* Forms
-* Navigation menus
-* Tables
-* And many more
+- **Multilingual Curtain Preloader**: Welcomes visitors across multiple languages with dynamic GSAP progress counter and SVG liquid exit animation.
+- **Smooth Momentum Scrolling**: Integrated Lenis scroll engine with GSAP ticker synchronization.
+- **Hardware-Accelerated Custom Cursor**: Snappy physics-based follower that adapts its shape over interactive targets.
+- **Horizontal Pinning Showcase**: Horizontal scroll showcase on desktop with vertical fallback for mobile devices.
+- **3D Interactive Blueprint Map**: Spring-based 3D tilt card expanding to show a vector blueprint map of Bhubaneswar.
+- **Interactive Particle Flow Field**: Mathematical flow-field canvas simulation with active mouse cursor repulsion on the projects archive page.
+- **Direct Contact Integration**: Formspree-powered email form with validation, error shaking, and mailto fallback.
 
 ---
 
-## ✨ Features
+## 🛠️ Development & Deployment
 
-* Modern responsive design
-* Smooth animations using **Framer Motion**
-* Accessible UI components via **Radix UI**
-* Typed React components using **TypeScript**
-* Fast build and dev server with **Vite**
-* Modular project structure
+```bash
+# Install dependencies
+npm install
+
+# Run local development server
+npm run dev
+
+# Run ESLint check
+npm run lint
+
+# Build production bundle
+npm run build
+
+# Deploy to GitHub Pages
+npm run deploy
+```
 
 ---
 
 ## 📬 Contact
 
-If you'd like to collaborate or connect:
-
-**Lalit Mohan Mekap**
-
-* GitHub: https://github.com/lalitmohan-mekap
-* Portfolio: https://lalitmohan-mekap.github.io/Lalit-s-Portfolio/
-* Email: lalitmohanmekap123@gmail.com
+- **GitHub**: [https://github.com/lalitmohan-mekap](https://github.com/lalitmohan-mekap)
+- **LinkedIn**: [https://linkedin.com/in/lalitmekap](https://linkedin.com/in/lalitmekap)
+- **Email**: lalitmohanmekap123@gmail.com
 
 ---
 

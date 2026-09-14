@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { config } from "../data/config";
+import { useConfig } from "../hooks/useConfig";
 import FlowFieldBackground from "./FlowFieldBackground";
 import { Cursor } from "./Cursor";
 import "./MyWorks.css";
@@ -9,6 +9,7 @@ import "./MyWorks.css";
 import Lenis from "lenis";
 
 export const MyWorks = () => {
+  const { config, isLoading } = useConfig();
   useEffect(() => {
     // Scroll to top when loading the page
     window.scrollTo(0, 0);
@@ -27,12 +28,6 @@ export const MyWorks = () => {
       infinite: false,
     });
 
-    const raf = (time) => {
-      lenis.raf(time);
-    };
-
-    requestAnimationFrame(raf);
-    
     let animationFrameId;
     const loop = (time) => {
       lenis.raf(time);
@@ -45,6 +40,8 @@ export const MyWorks = () => {
       lenis.destroy();
     };
   }, []);
+
+  if (isLoading) return <div className="myworks-page" style={{ position: "relative" }} />;
 
   return (
     <div className="myworks-page" style={{ position: "relative" }}>

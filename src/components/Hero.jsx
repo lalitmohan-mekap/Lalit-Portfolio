@@ -1,8 +1,9 @@
 import React from "react";
-import { config } from "../data/config";
-import FlowFieldBackground from "./FlowFieldBackground";
+import { useConfig } from "../hooks/useConfig";
 
-export const Hero = ({ children }) => {
+export const Hero = () => {
+  const { config, isLoading } = useConfig();
+  if (isLoading) return null;
   const parts = config.developer.fullName.split(" ");
   const first = parts[0] || config.developer.name;
   const rest = parts.slice(1).join(" ") || "";
@@ -39,7 +40,6 @@ export const Hero = ({ children }) => {
             <img src="./images/Lalit.png" alt={config.developer.fullName} width="380" height="456" />
           </div>
         </div>
-        {children}
       </div>
     </>
   );
