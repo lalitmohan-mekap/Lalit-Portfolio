@@ -97,6 +97,21 @@
         "Data Structures",
         "Algorithms"
       ]
+    },
+    {
+      "position": "New Position",
+      "company": "Company",
+      "period": "now",
+      "location": "Location",
+      "description": "Description...hysi sjuns hisb",
+      "responsibilities": [
+        "bwns",
+        "ej"
+      ],
+      "technologies": [
+        "hass",
+        "test"
+      ]
     }
   ],
   "projects": [
@@ -152,6 +167,15 @@
       "image": "./images/election-process.png",
       "link": "https://lalitmohan-mekap.github.io/Election-Process-Education/",
       "description": "A modern, interactive web application that teaches citizens how elections work around the world. The platform combines rich animations, real-world data, and mobile-first responsive design to make civic education engaging and accessible."
+    },
+    {
+      "id": 1789411458142,
+      "title": "New Project",
+      "category": "Category",
+      "technologies": "",
+      "image": "./images/project-1789411469847-ChatGPT-Image-Aug-26,-2026,-08_30_16-PM.png",
+      "link": "",
+      "description": "Project description..."
     }
   ],
   "contact": {
